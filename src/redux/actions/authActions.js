@@ -1,14 +1,15 @@
 import axios from 'axios';
 
-export function auth() {
+export function auth(email, password) {
 	return function(dispatch) { 
 		const response = 
 			axios.post('https://customer-diy.appspot.com/api-token-auth/', {
-				username:'alejandro',
-				password:'123'
+				username: email,
+				password: password
 			})
 			.then(function (response) {
 				console.log(response);
+				localStorage.setItem('jwtToken', response.data.token)
 				return{
 					type: 'AUTH_USER_SET',
 					payload: response

@@ -10,9 +10,11 @@ const applySetAuthUser = (state, action) => ({
 });
 
 function mapReducer(state = INITIAL_STATE, action) {
+  console.log("action", action)
   switch(action.type) {
     case 'AUTH_USER_SET' : {
       state.auth = true;
+      state.authUser = action.token;
       return applySetAuthUser(state, action);
     }
     case 'ERR_AUTH':{

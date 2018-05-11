@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
+import './login.css'
 
 import { auth } from '../../redux/actions/authActions';
 import * as routes from '../../constants/routes';
@@ -31,13 +32,18 @@ class SignInForm extends Component {
   }
 
   onSubmit = (event) => {
+    const {
+      email,
+      password,
+    } = this.state;
+
     event.preventDefault();
     const {
       history,
     } = this.props;
 
     this.props.dispatch( 
-      auth()
+      auth(email, password)
     );
   }
 
@@ -55,37 +61,34 @@ class SignInForm extends Component {
     const props = this.props;
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <div>
-          <label>
-               <span>Email</span>
-          </label>
-          <input
-            value={email}
-            onChange={event => this.setState(byPropKey('email', event.target.value))}
-            type='text'
-            placeholder='Email Address'
-          />
-        </div>
-        <div >
-          <label>
-               <span>Password</span>
-          </label>
-          <input
-            value={password}
-            onChange={event => this.setState(byPropKey('password', event.target.value))}
-            type='password'
-            placeholder='Password'
-          />
-        </div>
-        <div>
-          <button disabled={isInvalid} type='submit'>
-            Sign In
-          </button>
-        </div>
+      <div className="container">
+        <form className='topBefore' onSubmit={this.onSubmit}>
+        <h1>Login</h1>
+          <div>
+            <input
+              value={email}
+              onChange={event => this.setState(byPropKey('email', event.target.value))}
+              type='text'
+              placeholder='Email Address'
+            />
+          </div>
+          <div >
+            <input
+              value={password}
+              onChange={event => this.setState(byPropKey('password', event.target.value))}
+              type='password'
+              placeholder='Password'
+            />
+          </div>
+          <div>
+            <button disabled={isInvalid} type='submit'>
+              Sign In
+            </button>
+          </div>
 
-        { error && <p>{error.message}</p> }
-      </form>
+          { error && <p>{error.message}</p> }
+        </form>
+      </div>
     );
   }
 }
