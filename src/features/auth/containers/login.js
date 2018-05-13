@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { withRouter } from 'react-router-dom';
-import { compose } from 'recompose';
-import './login.css'
-
-import { auth } from '../../redux/actions/authActions';
-import * as routes from '../../constants/routes';
+import { auth } from '../actions';
 
 const SignInPage = ({ history }) =>
   <div className='grid'>
@@ -38,13 +33,12 @@ class SignInForm extends Component {
     } = this.state;
 
     event.preventDefault();
+
     const {
       history,
     } = this.props;
 
-    this.props.dispatch( 
-      auth(email, password)
-    );
+    this.props.auth(email, password);
   }
 
   render() {
@@ -93,13 +87,14 @@ class SignInForm extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  authUser: state.sessionState.authUser,
-  auth: state.sessionState.auth,
-  error: state.sessionState.error
+const mapStateToProps = ({ auth }) => ({
+  loading: auth.loading,
+  error: auth.error,
+  isAuthenticated: auth.isAuthenticated
 });
 
-export default compose (
-  withRouter,
-  connect(mapStateToProps)
-)(SignInForm);
+const mapDispatchToProps = {
+  auth
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignInForm);
